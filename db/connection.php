@@ -1,13 +1,17 @@
 <?php
-$host = 'localhost';          // Database host
-$db = 'car_rental_system';    // Database name
-$user = 'postgres';  // PostgreSQL username
-$pass = 'sauban';  // PostgreSQL password
-$port = 5432;
+$host = getenv('DB_HOST');          // Use environment variable for host
+$db = getenv('DB_NAME');            // Use environment variable for db name
+$user = getenv('DB_USER');          // Use environment variable for user
+$pass = getenv('DB_PASS');          // Use environment variable for password
+$port = getenv('DB_PORT');          // Use environment variable for port
+
+// Create a connection string
+$dsn = "pgsql:host=$host;dbname=$db;port=$port";
+
+// Try to establish a connection using PDO
 try {
-    // PostgreSQL connection string
-    $pdo = new PDO("pgsql:host=$host;dbname=$db;port=$port", $user, $pass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);  // Set error mode to Exception
+    $pdo = new PDO($dsn, $user, $pass);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // Enable error handling
 } catch (PDOException $e) {
     echo json_encode(['error' => $e->getMessage()]);
     exit;
