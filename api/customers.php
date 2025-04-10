@@ -9,6 +9,7 @@ if (!isset($_GET['phone'])) {
 
 $phone = $_GET['phone'];
 
+// Query for PostgreSQL
 $stmt = $pdo->prepare("SELECT * FROM customers WHERE phone = ?");
 $stmt->execute([$phone]);
 $customer = $stmt->fetch(PDO::FETCH_ASSOC);
